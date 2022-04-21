@@ -10,7 +10,7 @@
     // database production
     $host   ="103.147.154.86";
     $user   ="janjikui_spk";
-    $pass   ="janjikui_spk";
+    $pass   ="janjikuispk";
     $db     ="janjikui_spk";
     $conn   = mysqli_connect($host, $user, $pass, $db);
 

@@ -39,8 +39,8 @@
                 </a>
                 <div class="submenu">
                     <ul>
-                        <li class="nav-item"><a class="nav-link" href="pages/ui-features/buttons.html">Input Dosen</a></li>
-                        <li class="nav-item"><a class="nav-link" href="pages/ui-features/typography.html">Daftar Dosen</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Input Dosen</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Daftar Dosen</a></li>
                     </ul>
                 </div>
             </li>
@@ -52,8 +52,8 @@
                 </a>
                 <div class="submenu">
                     <ul>
-                        <li class="nav-item"><a class="nav-link" href="pages/ui-features/buttons.html">Input Kriteria</a></li>
-                        <li class="nav-item"><a class="nav-link" href="pages/ui-features/typography.html">Daftar Kriteria</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Input Kriteria</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Daftar Kriteria</a></li>
                     </ul>
                 </div>
             </li>
@@ -65,8 +65,8 @@
                 </a>
                 <div class="submenu">
                     <ul>
-                        <li class="nav-item"><a class="nav-link" href="pages/ui-features/buttons.html">Daftar Alternatif</a></li>
-                        <li class="nav-item"><a class="nav-link" href="pages/ui-features/typography.html">Daftar Kriteria</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Daftar Alternatif</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Daftar Kriteria</a></li>
                     </ul>
                 </div>
             </li>

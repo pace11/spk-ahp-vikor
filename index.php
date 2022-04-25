@@ -19,6 +19,7 @@
     <!-- base:css -->
     <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
+    <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     <!-- endinject -->
     <!-- plugin css for this page -->
     <!-- End plugin css for this page -->
@@ -69,6 +70,13 @@
     <script src="js/jquery.cookie.js" type="text/javascript"></script>
     <!-- Custom js for this page-->
     <script src="js/dashboard.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(function () {
+            $('.example').DataTable()
+        });
+    </script>
     <!-- End custom js for this page-->
   </body>
 </html>

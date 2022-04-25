@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 20, 2022 at 06:15 PM
+-- Generation Time: Apr 25, 2022 at 06:22 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.28
 
@@ -20,6 +20,17 @@ SET time_zone = "+00:00";
 --
 -- Database: `spk_ahp_vikor`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dosen`
+--
+
+CREATE TABLE `dosen` (
+  `id` varchar(9) NOT NULL,
+  `nama` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -44,6 +55,12 @@ INSERT INTO `login` (`id`, `nama`, `username`, `password`) VALUES
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `dosen`
+--
+ALTER TABLE `dosen`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `login`

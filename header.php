@@ -39,8 +39,8 @@
                 </a>
                 <div class="submenu">
                     <ul>
-                        <li class="nav-item"><a class="nav-link" href="#">Input Dosen</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Daftar Dosen</a></li>
+                        <li class="nav-item"><a class="nav-link" href="?page=dosentambah">Input Dosen</a></li>
+                        <li class="nav-item"><a class="nav-link" href="?page=dosen">Daftar Dosen</a></li>
                     </ul>
                 </div>
             </li>

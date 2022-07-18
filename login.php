@@ -11,9 +11,9 @@
     $cek_login = mysqli_query($conn, "SELECT * FROM login WHERE BINARY username='$u' AND password='$p'");
     $data = mysqli_fetch_array($cek_login);
     $hitung = mysqli_num_rows($cek_login);
-    $token_gen = encrypt_decrypt('encrypt', $data['id']);
 
     if ($hitung > 0) {
+      $token_gen = encrypt_decrypt('encrypt', $data['id']);
       setcookie('user_dashboard', $token_gen, time() + (86400 * 30), "/");
     } 
   }
@@ -56,6 +56,7 @@
                   <div class="mt-3">
                     <input type="submit" name="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" value="LOGIN">
                   </div>
+                  <!-- <?= encrypt_decrypt("decrypt", "VGIvbGt5NUtOUC9TZVhBNkw3N1VHQT09") ?> -->
                   <?php 
                   
                     if (isset($_POST['submit'])) {

@@ -23,4 +23,53 @@ function get_user_login($token) {
     return mysqli_fetch_array($data);
 }
 
+function get_banding_kriteria($string) {
+    include "connection.php";
+    $data = mysqli_query($conn, "SELECT * FROM banding_kriteria WHERE id='$string'");
+    return mysqli_fetch_array($data);
+}
+
+function object_kriteria() {
+    include "connection.php";
+    $tmp_arr = array();
+    $q = mysqli_query($conn, "SELECT id, nama_kriteria FROM kriteria");
+    while($data=mysqli_fetch_array($q)) {
+        $tmp_arr[$data['id']] = $data['nama_kriteria'];
+    };
+    return (object)$tmp_arr;
+}
+
+function array_kriteria() {
+    include "connection.php";
+    $tmp_arr = array();
+    $q = mysqli_query($conn, "SELECT id FROM kriteria");
+    while($data=mysqli_fetch_array($q)) {
+        $tmp_arr[] = $data['id'];
+      };
+    return $tmp_arr;
+}
+
+function array_kritria_twod() {
+    $arr = array_kriteria();
+    $tmp = array();
+    foreach ($arr as $key_p => $val_p) {
+        foreach ($arr as $key_c => $val_c) {
+          if ($arr[$key_p] != $arr[$key_c]) {
+            $tmp[] = $arr[$key_p]."-".$arr[$key_c];
+          }
+        }
+    }
+    return $tmp;
+}
+
+function reverse_array($string) {
+    $tmp = explode("-", $string);
+    return $tmp[1]."-".$tmp[0];
+}
+
+function explode_array($string) {
+    $tmp = explode("-", $string);
+    return $tmp;
+}
+
 ?>

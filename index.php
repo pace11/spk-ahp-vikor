@@ -1,5 +1,8 @@
 <?php 
   if (isset($_COOKIE['user_dashboard'])) {
+    error_reporting(0);
+    ini_set('display_errors', 0);
+    
     date_default_timezone_set('Asia/Jakarta');
     include "config/connection.php";
     include "config/global_function.php";
@@ -43,7 +46,7 @@
 					</div>
 				</div>
 				<footer class="footer">
-          footer
+          <!-- footer -->
         </footer>
 				<!-- partial -->
 			</div>

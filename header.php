@@ -52,12 +52,13 @@
                 </a>
                 <div class="submenu">
                     <ul>
-                        <li class="nav-item"><a class="nav-link" href="#">Input Kriteria</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Daftar Kriteria</a></li>
+                        <li class="nav-item"><a class="nav-link" href="?page=kriteriatambah">Input Kriteria</a></li>
+                        <li class="nav-item"><a class="nav-link" href="?page=kriteria">Daftar Kriteria</a></li>
+                        <li class="nav-item"><a class="nav-link" href="?page=bandingkriteria">Perbandingan Kriteria</a></li>
                     </ul>
                 </div>
             </li>
-                    <li class="nav-item">
+            <li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="mdi mdi-cube-outline menu-icon"></i>
                     <span class="menu-title">Alternatif</span>
@@ -65,8 +66,8 @@
                 </a>
                 <div class="submenu">
                     <ul>
-                        <li class="nav-item"><a class="nav-link" href="#">Daftar Alternatif</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Daftar Kriteria</a></li>
+                        <li class="nav-item"><a class="nav-link" href="?page=alternatiftambah">Daftar Alternatif</a></li>
+                        <li class="nav-item"><a class="nav-link" href="?page=alternatif">Daftar Alternatif</a></li>
                     </ul>
                 </div>
             </li>

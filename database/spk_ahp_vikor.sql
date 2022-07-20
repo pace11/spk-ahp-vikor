@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 18, 2022 at 09:53 AM
+-- Generation Time: Jul 20, 2022 at 02:22 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.29
 
@@ -45,6 +45,17 @@ INSERT INTO `alternatif` (`id`, `nama_alternatif`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `banding_dosen`
+--
+
+CREATE TABLE `banding_dosen` (
+  `id` int(5) NOT NULL,
+  `data` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `banding_kriteria`
 --
 
@@ -72,10 +83,10 @@ CREATE TABLE `dosen` (
 --
 
 INSERT INTO `dosen` (`id`, `nama`) VALUES
-('DOSEN0001', 'Undertaker'),
-('DOSEN0002', 'John Cena'),
-('DOSEN0003', 'Triple H'),
-('DOSEN0004', 'Bautista');
+('DOSEN0001', 'Umar Bakrie'),
+('DOSEN0002', 'Mahyadi P'),
+('DOSEN0003', 'Bambang Tri'),
+('DOSEN0004', 'Dicky Firasat');
 
 -- --------------------------------------------------------
 
@@ -86,7 +97,7 @@ INSERT INTO `dosen` (`id`, `nama`) VALUES
 CREATE TABLE `kriteria` (
   `id` varchar(5) NOT NULL,
   `nama_kriteria` text DEFAULT NULL,
-  `bobot` decimal(10,2) DEFAULT NULL
+  `bobot` int(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -94,10 +105,10 @@ CREATE TABLE `kriteria` (
 --
 
 INSERT INTO `kriteria` (`id`, `nama_kriteria`, `bobot`) VALUES
-('C01', 'Pendidikan dan Pengajaran', '1.00'),
-('C02', 'Penelitian dan Pengembangan', '1.00'),
-('C03', 'Pengabdian Kepada Masyarakat', '1.00'),
-('C04', 'Penunjang Tridarma', '1.00');
+('C01', 'Pengajaran', 1),
+('C02', 'Penelitian dan Pengembangan', 1),
+('C03', 'Pengabdian Kepada Masyarakat', 1),
+('C04', 'Penunjang Tridarma', 1);
 
 -- --------------------------------------------------------
 
@@ -130,6 +141,12 @@ ALTER TABLE `alternatif`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `banding_dosen`
+--
+ALTER TABLE `banding_dosen`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `banding_kriteria`
 --
 ALTER TABLE `banding_kriteria`
@@ -156,6 +173,12 @@ ALTER TABLE `login`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `banding_dosen`
+--
+ALTER TABLE `banding_dosen`
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `login`

@@ -1,32 +1,28 @@
 <?php 
 
-  $arr1 = array();
-  $arr2 = array();
-  $tmp2 = array();
-  $tmp3 = array();
-  $q = mysqli_query($conn, "SELECT id FROM kriteria");
-  while($data=mysqli_fetch_array($q)) {
-    $arr1[] = $data['id'];
-    $arr2[] = $data['id'];
-  };
-  
-  for ($a=0; $a<count($arr1); $a++) {
-    for ($b=0; $b<count($arr2); $b++) {
-      if ($arr1[$a] != $arr2[$b]) {
-        $tmp2[] = $arr1[$a]."-".$arr2[$b];
+  $tmp_arr_kriteria = array();
+  $tmp_arr = array();
+  $arr_kriteria = array_kriteria("kriteria");
+  $arr_dosen = array_kriteria("dosen");
+  $arr_k_two_d = array_kriteria_twod($arr_kriteria);
+  $arr_k_two_d_unik = array_kriteria_banding_unik($arr_k_two_d);
+
+  foreach($arr_kriteria as $key => $val) {
+    foreach($arr_dosen as $key_p => $val_p) {
+      foreach($arr_dosen as $key_c => $val_c) {
+        if ($key_p == $key_c) {
+          $tmp_arr[$key_p][$key_c] = 1;
+        } else {
+          $tmp_arr[$key_p][$key_c] = 0;
+        }
       }
     }
+    $tmp_arr_kriteria[$val] = $tmp_arr;
   }
 
-  for ($a=0; $a<count($tmp2); $a++) {
-    if (empty($tmp3)) {
-      $tmp3[] = $tmp2[$a];
-    } else {
-      if (!in_array(reverse_array($tmp2[$a]), $tmp3)) {
-        $tmp3[] = $tmp2[$a];
-      }
-    }
-  }
+  // echo "<pre>";
+  // print_r($tmp_arr_kriteria);
+  // echo "</pre>";
 
 ?>
 
@@ -40,13 +36,17 @@
 
                       if (isset($_POST['submit'])) {
 
-                        $delete = mysqli_query($conn, "DELETE FROM banding_kriteria");
+                        $arr_tmp = array();
+                        $arr_tmp_dosen = array();
 
-                        if ($delete) {
-                          $total = count($tmp3);
+                        $delete = mysqli_query($conn, "DELETE FROM banding_kriteria");
+                        $delete2 = mysqli_query($conn, "DELETE FROM banding_dosen");
+
+                        if ($delete && $delete2) {
+                          $total = count($arr_k_two_d_unik);
                           $count = 0;
 
-                          for($a=0; $a<count($tmp3); $a++) {
+                          for($a=0; $a<count($arr_k_two_d_unik); $a++) {
                             $id = (string) $_POST['text-'.$a];
                             $k1 = (string) explode_array($_POST['text-'.$a])[0];
                             $k2 = (string) explode_array($_POST['text-'.$a])[1];
@@ -65,13 +65,30 @@
                             }
                           }
 
+                          foreach($tmp_arr_kriteria as $key => $val) {
+                            $tmp_isi = array();
+                            foreach($arr_dosen as $key_p => $val_p) {
+                              foreach($arr_dosen as $key_c => $val_c) {
+                                $val = $_POST[$key.'-'.$key_p.'-'.$key_c];
+                                $arr_tmp[$key_p][$key_c] = $val;
+                              }
+                            }
+                            $sum = hitung_array_kriteria_column($arr_tmp);
+                            $arr_tmp_dosen[$key] = $sum;
+                          }
+
+                          $isi_data = json_encode($arr_tmp_dosen);
+
+                          mysqli_query($conn, "INSERT INTO banding_dosen SET
+                            data  = '$isi_data'") or die (mysqli_error($conn));
+
                           if ($count == $total) {
                             echo '<div class="mt-3 mb-3 badge-success p-2 text-center rounded-1">Data berhasil tersimpan</div>';
                             echo "<meta http-equiv='refresh' content='1;
                             url=?page=bandingkriteria'>";
                           }
+                        
                         }
-
                       }
                     
                     ?>
@@ -88,15 +105,15 @@
                           </tr>
                         </thead>
                         <tbody>
-                        <?php for ($a=0; $a<count($tmp3); $a++) { ?>
+                        <?php for ($a=0; $a<count($arr_k_two_d_unik); $a++) { ?>
                           <tr>
                               <td>
                                 <div class="form-group">
                                   <label class="form-check-label" style="display:flex;">
-                                    <input type="radio" class="form-check-input" id="optionsRadios1" name="<?= "radio-".$a ?>" value="<?= explode_array($tmp3[$a])[0] ?>" required>
+                                    <input type="radio" class="form-check-input" id="optionsRadios1" name="<?= "radio-".$a ?>" value="<?= explode_array($arr_k_two_d_unik[$a])[0] ?>">
                                     <p style="margin-left: 5px;">
                                       <?php
-                                        $val = explode_array($tmp3[$a])[0];
+                                        $val = explode_array($arr_k_two_d_unik[$a])[0];
                                         echo object_kriteria()->$val;
                                       ?>
                                     </p>
@@ -106,10 +123,10 @@
                               <td>
                                 <div class="form-group">
                                   <label class="form-check-label" style="display:flex;">
-                                    <input type="radio" class="form-check-input" id="optionsRadios1" name="<?= "radio-".$a ?>" value="<?= explode_array($tmp3[$a])[1] ?>" required>
+                                    <input type="radio" class="form-check-input" id="optionsRadios1" name="<?= "radio-".$a ?>" value="<?= explode_array($arr_k_two_d_unik[$a])[1] ?>">
                                     <p style="margin-left: 5px;">
                                       <?php
-                                        $val = explode_array($tmp3[$a])[1];
+                                        $val = explode_array($arr_k_two_d_unik[$a])[1];
                                         echo object_kriteria()->$val;
                                       ?>
                                     </p>
@@ -118,14 +135,39 @@
                               </td>
                               <td>
                                 <div class="form-group">
-                                  <input type="text" class="form-control" placeholder="Nilai perbandingan" name="<?= "nilai-".$a ?>" required>
-                                  <input type="text" class="form-control" value="<?= $tmp3[$a] ?>" name="<?= "text-".$a ?>" hidden>
+                                  <input type="text" class="form-control" placeholder="Nilai perbandingan" name="<?= "nilai-".$a ?>">
+                                  <input type="text" class="form-control" value="<?= $arr_k_two_d_unik[$a] ?>" name="<?= "text-".$a ?>" hidden>
                                 </div>
                               </td>
                           </tr>
                         <?php } ?>
                         </tbody>
                       </table>
+                      <br />
+                      <br />
+                      <?php 
+                      
+                      foreach($tmp_arr_kriteria as $key => $val) {
+                        echo "<h4 class='card-title'><strong>Nilai perbandingan Dosen untuk kriteria (".$key.") ".object_kriteria()->$key."</strong></h4>";
+                        echo "<table class='table table-bordered'>";
+                        echo "<tbody>";
+                          foreach($val as $key1 => $val1) {
+                            echo "<tr>";
+                              foreach($val1 as $key2 => $val2) {
+                                if ($val2 == 1) {
+                                  echo "<td><div class='form-group'><input type='text' class='form-control' name='$key-$key1-$key2' value='$val2' placeholder='$val2' readonly></div></td>";
+                                } else {
+                                  echo "<td><div class='form-group'><input type='text' class='form-control' name='$key-$key1-$key2' value='$val2' placeholder='$val2'></div></td>";
+                                }
+                              }
+                            echo "</tr>";
+                          }
+                        echo "</tbody>";
+                        echo "</table>";
+                        echo "<br />";
+                      }
+                      
+                      ?>
                       <br />
                       <input type="submit" name="submit" class="btn btn-primary me-2" value="simpan">
                       <a href="?page=bandingkriteria" class="btn btn-light">Kembali</a>

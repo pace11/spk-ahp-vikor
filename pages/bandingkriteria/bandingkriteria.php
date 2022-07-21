@@ -261,55 +261,13 @@
 </div>
 <?php } ?>
 
-<?php if (count($result_ranking)) { ?>
-<div class="col-lg-12 grid-margin stretch-card">
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h4 class="card-title"><i class="mdi mdi-star-circle menu-icon"></i> Hasil Ranking dengan AHP</h4>
-                    <div class="table-responsive pt-3">
-                    <table class="table example-1 table-bordered">
-                    <?php 
-                        
-                      echo "<thead>";
-                      echo "<tr><th></th>";
-                      foreach ($arr_kriteria as $key_k => $value_k) {
-                        echo "<th><strong>".object_kriteria()->$value_k."</strong></th>";
-                      } 
-                      echo "<th><strong>Result</strong></th><th><strong>Ranking</strong></th>";
-                      echo "</tr></thead>";
-                      echo "<tbody>";
-                      foreach($hit_final_dosen as $key_p => $val_p) {
-                        echo "<tr>";
-                        $val = $arr_dosen[$key_p];
-                        echo "<td><strong>(".$arr_dosen[$key_p].") ".object_dosen()->$val."</strong></td>";
-                        foreach($val_p as $key_c => $val_c) {
-                          echo "<td class='table-info'>".$val_c."</td>";
-                        }
-                        echo "<td class='table-info'>".$ranking[$key_p]."</td>";
-                        echo "<td class='table-info'>".$result_ranking[$key_p]."</td>";
-                        echo "</tr>";
-                      }
-                      echo "</tbody>";
-            
-                    ?>
-                    </table>
-                  </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<?php } ?>
-
 <?php if (count($result_vikor_ranking)) { ?>
 <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-12">
-                    <h4 class="card-title"><i class="mdi mdi-star-circle menu-icon"></i> Hasil Ranking dengan Vikor</h4>
+                    <h4 class="card-title"><i class="mdi mdi-star-circle menu-icon"></i> Hasil Ranking menggunakan Vikor</h4>
                     <div class="table-responsive pt-3">
                     <table class="table example-1 table-bordered">
                     <?php 

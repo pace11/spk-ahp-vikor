@@ -111,6 +111,30 @@ function array_kriteria_banding_unik($arr) {
     return $tmp;
 }
 
+function hitung_kriteria_column($arr) {
+  $tmp = 0;
+  foreach ($arr as $key => $val) {
+    $tmp += $val;
+  }
+  return $tmp;
+}
+
+function hitung_array_kriteria_column_unmerged($arr) {
+  $tmp = array();
+  foreach ($arr as $key => $val) {
+    $tmp[] = array_sum($val);
+  }
+  return $tmp;
+}
+
+function hitung_array_max($arr) {
+  $tmp = array();
+  foreach ($arr as $key => $val) {
+    $tmp[] = max($val);
+  }
+  return $tmp;
+}
+
 function hitung_array_kriteria_column($arr) {
   $tmp = array();
   foreach ($arr as $k => $subArray) {
@@ -212,6 +236,16 @@ function ranking_dosen($arr) {
   $tmp = array();
   $rank = $arr;
   rsort($rank);
+  foreach($arr as $sort) {
+    $tmp[] =  "Ranking " . (array_search($sort, $rank) + 1);
+  }
+  return $tmp;
+}
+
+function ranking_vikor($arr) {
+  $tmp = array();
+  $rank = $arr;
+  sort($rank);
   foreach($arr as $sort) {
     $tmp[] =  "Ranking " . (array_search($sort, $rank) + 1);
   }

@@ -54,7 +54,7 @@
                     <ul>
                         <li class="nav-item"><a class="nav-link" href="?page=kriteriatambah">Input Kriteria</a></li>
                         <li class="nav-item"><a class="nav-link" href="?page=kriteria">Daftar Kriteria</a></li>
-                        <li class="nav-item"><a class="nav-link" href="?page=bandingkriteria">Perbandingan Kriteria dengan AHP</a></li>
+                        <li class="nav-item"><a class="nav-link" href="?page=bandingkriteria">Perbandingan Kriteria</a></li>
                     </ul>
                 </div>
             </li>

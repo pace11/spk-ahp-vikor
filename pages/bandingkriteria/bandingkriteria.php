@@ -30,37 +30,49 @@
   $hit_final_dosen = array();
   $hit_bobot_kriteria = array_slice($hit_bobot, 0, count($hit_bobot)-1);
 
+  $w = array();
+  foreach ($hit_bobot_kriteria as $key => $val) {
+    $w[] = $val/hitung_kriteria_column($hit_bobot_kriteria);
+  }
+  $result_w = hitung_kriteria_column($w);
+
   foreach($arr_kriteria as $key => $val) {
     $hit_vektor_dosen[] = hitung_vektor(array_kriteria_dua($obj->$val));
     $arr = hitung_bobot($hit_vektor_dosen[$key], count($arr_dosen));
     $hit_bobot_dosen[] = array_slice($arr, 0, count($arr)-1);
   }
 
+  $hit_bobot_dosen_fin = array();
   foreach($hit_bobot_dosen as $key => $val) {
     foreach($val as $key_c => $val_c) {
-      $a = $val_c*$hit_bobot_kriteria[$key];
-      $hit_final_dosen[$key][$key_c] = $a;
+      $hit_bobot_dosen_fin[$key_c][$key] = $val_c;
     }
   }
 
-  $dosen_before_final = array();
-  foreach($hit_final_dosen as $key => $val) {
+  foreach($hit_bobot_dosen_fin as $key => $val) {
     foreach($val as $key_c => $val_c) {
-      $dosen_before_final[$key_c][$key] = $val_c;
+      $a = $val_c*$hit_bobot_kriteria[$key_c];
+      $hit_final_dosen[$key][$key_c] = round($a, 5);
+      $tmp_val = round(((max($hit_bobot_dosen[$key_c]) - $val_c) / (max($hit_bobot_dosen[$key_c]) - min($hit_bobot_dosen[$key_c]))), 5);
+      $value_s[$key][$key_c] = $tmp_val;
+      $value_r[$key][$key_c] = round($tmp_val*$w[$key_c], 5);
     }
   }
 
   $ranking = array();
-  foreach ($dosen_before_final as $k => $subArray) {
+  foreach ($hit_final_dosen as $k => $subArray) {
     foreach ($subArray as $id => $value) {
       $ranking[$k] += $value;
     }
   }
   $result_ranking = ranking_dosen($ranking);
+  $hitung_value_r = hitung_array_kriteria_column_unmerged($value_r);
+  $max_value_r = hitung_array_max($value_r);
 
-  // echo "<pre>";
-  // print_r(count($result_ranking));
-  // echo "</pre>";
+  foreach($arr_dosen as $key => $val) {
+    $vikor_ranking[] = round(((($hitung_value_r[$key]-min($hitung_value_r)) / (max($hitung_value_r)-min($hitung_value_r)) * 0.5) + (($max_value_r[$key]-min($max_value_r)) / (max($max_value_r)-min($max_value_r)) * 0.5)), 5);
+  }
+  $result_vikor_ranking = ranking_vikor($vikor_ranking);
 
 ?>
 
@@ -69,7 +81,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-12">
-                    <h4 class="card-title"><i class="mdi mdi-account menu-icon"></i> List Data Perbandingan Kriteria dengan AHP</h4>
+                    <h4 class="card-title"><i class="mdi mdi-account menu-icon"></i> List Data Perbandingan Kriteria</h4>
                     <a href="?page=bandingkriteriatambah" class="btn btn-primary"><i class="mdi mdi-plus-circle"></i> Buat Perbandingan Kriteria Baru</a>
                     <div class="table-responsive pt-3">
                     <table class="example table table-bordered">
@@ -255,8 +267,9 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-12">
+                    <h4 class="card-title"><i class="mdi mdi-star-circle menu-icon"></i> Hasil Ranking dengan AHP</h4>
                     <div class="table-responsive pt-3">
-                    <table class="table table-bordered">
+                    <table class="table example-1 table-bordered">
                     <?php 
                         
                       echo "<thead>";
@@ -264,10 +277,10 @@
                       foreach ($arr_kriteria as $key_k => $value_k) {
                         echo "<th><strong>".object_kriteria()->$value_k."</strong></th>";
                       } 
-                      echo "<th colspan='2'><strong>Ranking</strong></th>";
+                      echo "<th><strong>Result</strong></th><th><strong>Ranking</strong></th>";
                       echo "</tr></thead>";
                       echo "<tbody>";
-                      foreach($dosen_before_final as $key_p => $val_p) {
+                      foreach($hit_final_dosen as $key_p => $val_p) {
                         echo "<tr>";
                         $val = $arr_dosen[$key_p];
                         echo "<td><strong>(".$arr_dosen[$key_p].") ".object_dosen()->$val."</strong></td>";
@@ -276,6 +289,42 @@
                         }
                         echo "<td class='table-info'>".$ranking[$key_p]."</td>";
                         echo "<td class='table-info'>".$result_ranking[$key_p]."</td>";
+                        echo "</tr>";
+                      }
+                      echo "</tbody>";
+            
+                    ?>
+                    </table>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
+<?php if (count($result_vikor_ranking)) { ?>
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h4 class="card-title"><i class="mdi mdi-star-circle menu-icon"></i> Hasil Ranking dengan Vikor</h4>
+                    <div class="table-responsive pt-3">
+                    <table class="table example-1 table-bordered">
+                    <?php 
+                        
+                      echo "<thead>";
+                      echo "<tr><th></th><th><strong>Nilai S</strong></th><th><strong>Nilai R</strong></th><th><strong>Result</strong></th><th><strong>Ranking</strong></th></tr>";
+                      echo "</thead>";
+                      echo "<tbody>";
+                      foreach($arr_dosen as $key => $val) {
+                        echo "<tr>";
+                        echo "<td><strong>(".$arr_dosen[$key_p].") ".object_dosen()->$val."</strong></td>";
+                        echo "<td class='table-info'>".$hitung_value_r[$key]."</td>";
+                        echo "<td class='table-info'>".$max_value_r[$key]."</td>";
+                        echo "<td class='table-info'>".$vikor_ranking[$key]."</td>";
+                        echo "<td class='table-info'>".$result_vikor_ranking[$key]."</td>";
                         echo "</tr>";
                       }
                       echo "</tbody>";

@@ -79,6 +79,12 @@
         $(function () {
             $('.example').DataTable()
         });
+        $(function () {
+            $('.example-1').DataTable({
+              "searching": false,
+              "paging": false,
+            })
+        });
     </script>
     <!-- End custom js for this page-->
   </body>

@@ -30,4 +30,8 @@ if (isset($_GET['page'])) $page=$_GET['page'];
     elseif ($page == "alternatifedit")          include("pages/alternatif/alternatifedit.php");
     elseif ($page == "alternatifhapus")         include("pages/alternatif/alternatifhapus.php");
 
+    // perhitungan page
+    elseif ($page == "perhitungan")             include("pages/perhitungan/perhitungan.php");
+    elseif ($page == "perhitungantambah")             include("pages/perhitungan/perhitungantambah.php");
+
 ?>

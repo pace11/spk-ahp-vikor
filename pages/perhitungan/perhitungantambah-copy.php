@@ -31,7 +31,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-12">
-                    <h4 class="card-title"><i class="mdi mdi-account menu-icon"></i> Tambah Data Perbandingan Kriteria</h4>
+                    <h4 class="card-title"><i class="mdi mdi-account menu-icon"></i> Tambah Data Perhitungan Kriteria</h4>
                     <?php 
 
                       if (isset($_POST['submit'])) {
@@ -85,14 +85,14 @@
                           if ($count == $total) {
                             echo '<div class="mt-3 mb-3 badge-success p-2 text-center rounded-1">Data berhasil tersimpan</div>';
                             echo "<meta http-equiv='refresh' content='1;
-                            url=?page=bandingkriteria'>";
+                            url=?page=perhitungan'>";
                           }
                         
                         }
                       }
                     
                     ?>
-                    <form class="forms-sample" action="?page=bandingkriteriatambah" method="post" enctype="multipart/form-data">
+                    <form class="forms-sample" action="?page=perhitungantambah" method="post" enctype="multipart/form-data">
                       <table class="table table-bordered">
                         <thead>
                           <tr>
@@ -170,7 +170,7 @@
                       ?>
                       <br />
                       <input type="submit" name="submit" class="btn btn-primary me-2" value="simpan">
-                      <a href="?page=bandingkriteria" class="btn btn-light">Kembali</a>
+                      <a href="?page=perhitungan" class="btn btn-light">Kembali</a>
                   </form>
                 </div>
             </div>

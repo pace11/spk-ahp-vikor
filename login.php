@@ -53,8 +53,10 @@
                   <div class="form-group">
                     <input type="password" class="form-control form-control-lg" placeholder="Password" name="password">
                   </div>
-                  <div class="mt-3">
+                  <div class="mt-3 text-center">
+                    <p><i class="mdi mdi-chart-bar"></i> Penilaian Dosen</p>
                     <input type="submit" name="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" value="LOGIN">
+                    <p>@2022 ITPLN Sistem Pendukung Keputusan</p>
                   </div>
                   <!-- <?= encrypt_decrypt("decrypt", "VGIvbGt5NUtOUC9TZVhBNkw3N1VHQT09") ?> -->
                   <?php 

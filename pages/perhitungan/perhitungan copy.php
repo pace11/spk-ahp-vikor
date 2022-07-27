@@ -82,7 +82,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h4 class="card-title"><i class="mdi mdi-account menu-icon"></i> List Data Perbandingan Kriteria</h4>
-                    <a href="?page=bandingkriteriatambah" class="btn btn-primary"><i class="mdi mdi-plus-circle"></i> Buat Perbandingan Kriteria Baru</a>
+                    <a href="?page=perhitungantambah" class="btn btn-primary"><i class="mdi mdi-plus-circle"></i> Buat Perbandingan Kriteria Baru</a>
                     <div class="table-responsive pt-3">
                     <table class="example table table-bordered">
                       <thead>

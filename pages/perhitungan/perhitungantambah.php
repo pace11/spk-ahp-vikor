@@ -204,30 +204,6 @@
                       </table>
                       <br />
                       <?php } ?>
-                      <?php 
-                      
-                      // foreach($tmp_arr_kriteria as $key => $val) {
-                      //   echo "<h4 class='card-title'><strong>Nilai perbandingan Dosen untuk kriteria (".$key.") ".object_kriteria()->$key."</strong></h4>";
-                      //   echo "<table class='table table-bordered'>";
-                      //   echo "<tbody>";
-                      //     foreach($val as $key1 => $val1) {
-                      //       echo "<tr>";
-                      //         foreach($val1 as $key2 => $val2) {
-                      //           if ($val2 == 1) {
-                      //             echo "<td><div class='form-group'><input type='text' class='form-control' name='$key-$key1-$key2' value='$val2' placeholder='$val2' readonly></div></td>";
-                      //           } else {
-                      //             echo "<td><div class='form-group'><input type='text' class='form-control' name='$key-$key1-$key2' value='$val2' placeholder='$val2'></div></td>";
-                      //           }
-                      //         }
-                      //       echo "</tr>";
-                      //     }
-                      //   echo "</tbody>";
-                      //   echo "</table>";
-                      //   echo "<br />";
-                      // }
-                      
-                      ?>
-                      <br />
                       <input type="submit" name="submit" class="btn btn-primary me-2" value="simpan">
                       <a href="?page=perhitungan" class="btn btn-light">Kembali</a>
                   </form>

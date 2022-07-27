@@ -45,6 +45,7 @@
   }
 
   foreach($arr_kriteria as $key => $val) {
+    $arr_k_dosen_dua[$val] = array_kriteria_dua($arr_k_dosen_satu[$val]);
     $hit_vektor_dosen[] = hitung_vektor(array_kriteria_dua($arr_k_dosen_satu[$val]));
     $arr = hitung_bobot($hit_vektor_dosen[$key], count($arr_dosen));
     $hit_bobot_dosen[] = array_slice($arr, 0, count($arr)-1);
@@ -83,7 +84,7 @@
   $result_vikor_ranking = ranking_vikor($vikor_ranking);
 
   // echo "<pre>";
-  // print_r($result_vikor_ranking);
+  // print_r($hit_vektor_dosen);
   // echo "</pre>";
 
 ?>
@@ -235,6 +236,93 @@
     </div>
 </div>
 <?php } ?>
+
+<?php 
+  if (count($arr_k_dosen_satu)) { 
+    foreach($arr_kriteria as $key => $val) {
+?>
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h4 class="card-title"><?= $key+1 ?>. Matriks Nilai Alternatif <i class="mdi mdi-arrow-right-circle"></i> <?= object_kriteria()->$val ?></h4>
+                    <div class="table-responsive pt-3">
+                    <table class="table table-bordered">
+                    <?php 
+                        
+                      echo "<thead>";
+                      echo "<tr><th>KRITERIA</th>";
+                      foreach ($arr_dosen as $key_k => $value_k) {
+                        echo "<th><strong>".$value_k."</strong></th>";
+                      } 
+                      // echo "<th><strong>Priority Vektor</strong></th>";
+                      echo "</tr></thead>";
+                      echo "<tbody>";
+                      foreach($arr_k_dosen_satu[$val] as $key_p => $val_p) {
+                        echo "<tr>";
+                        if ((int)count($arr_k_dosen_satu[$val])-1 == $key_p) {
+                          echo "<td><strong>Jumlah</strong></td>";
+                        } else {
+                          echo "<td><strong>".$arr_dosen[$key_p]."</strong></td>";
+                        }
+                        foreach($val_p as $key_c => $val_c) {
+                          echo "<td class='table-info'>".$val_c."</td>";
+                        }
+                        // echo "<td class='table-info'>".$hit_vektor[$key_p]."</td>";
+                        echo "</tr>";
+                      }
+                      // echo "<tr><td colspan=".count($arr_k_dua)."><strong>Principe Eigen Vektor (maks)</strong></td><td class='table-info'>".max($eigen_val)."</td></tr>";
+                      // echo "<tr><td colspan=".count($arr_k_dua)."><strong>Consistency Index</strong></td><td class='table-info'>".$ci."</td></tr>";
+                      // echo "<tr><td colspan=".count($arr_k_dua)."><strong>Consistency Ratio</strong></td><td class='table-info'>".$cr."</td></tr>";
+                      echo "</tbody>";
+            
+                    ?>
+                    </table>
+                  </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-responsive pt-3">
+                    <table class="table table-bordered">
+                    <?php 
+                        
+                      echo "<thead>";
+                      echo "<tr><th>KRITERIA</th>";
+                      foreach ($arr_dosen as $key_k => $value_k) {
+                        echo "<th><strong>".$value_k."</strong></th>";
+                      } 
+                      echo "<th><strong>Priority Vektor</strong></th>";
+                      echo "</tr></thead>";
+                      echo "<tbody>";
+                      foreach($arr_k_dosen_dua[$val] as $key_p => $val_p) {
+                        echo "<tr>";
+                        if ((int)count($arr_k_dosen_dua[$val])-1 == $key_p) {
+                          echo "<td><strong>Jumlah</strong></td>";
+                        } else {
+                          echo "<td><strong>".$arr_dosen[$key_p]."</strong></td>";
+                        }
+                        foreach($val_p as $key_c => $val_c) {
+                          echo "<td class='table-info'>".$val_c."</td>";
+                        }
+                        echo "<td class='table-info'>".$hit_vektor_dosen[$key][$key_p]."</td>";
+                        echo "</tr>";
+                      }
+                      // echo "<tr><td colspan=".count($arr_k_dua)."><strong>Principe Eigen Vektor (maks)</strong></td><td class='table-info'>".max($eigen_val)."</td></tr>";
+                      // echo "<tr><td colspan=".count($arr_k_dua)."><strong>Consistency Index</strong></td><td class='table-info'>".$ci."</td></tr>";
+                      // echo "<tr><td colspan=".count($arr_k_dua)."><strong>Consistency Ratio</strong></td><td class='table-info'>".$cr."</td></tr>";
+                      echo "</tbody>";
+            
+                    ?>
+                    </table>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php }} ?>
 
 <?php if (count($result_vikor_ranking)) { ?>
 <div class="col-lg-12 grid-margin stretch-card">

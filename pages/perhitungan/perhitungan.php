@@ -1,10 +1,9 @@
-<?php 
-
+<?php
   $q = mysqli_query($conn, "SELECT id FROM banding_kriteria");
   $count_banding_kriteria = mysqli_num_rows($q);
 
   $arr_kriteria = array_kriteria("kriteria");
-  $arr_dosen = array_kriteria("dosen");
+  $arr_dosen = array_alternatif();
   $arr_k_two_d = array_kriteria_twod($arr_kriteria);
   $arr_k_two_d_unik = array_kriteria_banding_unik($arr_k_two_d);
   $arr_k_satu = array_kriteria_satu($arr_kriteria, $arr_k_two_d_unik);
@@ -82,10 +81,6 @@
     $vikor_ranking[] = ((($hitung_value_r[$key]-min($hitung_value_r)) / (max($hitung_value_r)-min($hitung_value_r)) * 0.5) + (($max_value_r[$key]-min($max_value_r)) / (max($max_value_r)-min($max_value_r)) * 0.5));
   }
   $result_vikor_ranking = ranking_vikor($vikor_ranking);
-
-  // echo "<pre>";
-  // print_r($hit_vektor_dosen);
-  // echo "</pre>";
 
 ?>
 
@@ -331,6 +326,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h4 class="card-title"><i class="mdi mdi-star-circle menu-icon"></i> Hasil Ranking menggunakan Vikor</h4>
+                    <a href="<?= url_preview_file() ?>" class="btn btn-primary" target="_blank">Cetak</a>
                     <div class="table-responsive pt-3">
                     <table class="table example-1 table-bordered">
                     <?php 

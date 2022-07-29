@@ -16,7 +16,7 @@
                             ID
                           </th>
                           <th>
-                            Nama Alternatif
+                            Dosen
                           </th>
                           <th>
                             Action
@@ -26,15 +26,16 @@
                       <tbody>
                         <?php 
                           $no = 1;
-                          $q = mysqli_query($conn, "SELECT id, nama_alternatif FROM alternatif");
+                          $q = mysqli_query($conn, "SELECT * FROM alternatif
+                                                    JOIN dosen ON dosen.id=alternatif.dosen_id");
                           while($data=mysqli_fetch_array($q)){ ?>
                               <tr>
                                   <td><?= $no ?></td>
-                                  <td><span class="badge badge-success"><?= $data['id'] ?></span></td>
-                                  <td><?= !empty($data['nama_alternatif']) ? $data['nama_alternatif'] : '-' ?></td>
+                                  <td><span class="badge badge-success"><?= $data[0] ?></span></td>
+                                  <td><?= !empty($data['dosen_id']) ? "(".$data['dosen_id'].") ".$data['nama'] : '-' ?></td>
                                   <td>
                                       <a href="?page=alternatifedit&id=<?= $data['id'] ?>" class="btn btn-inverse-info btn-sm">ubah</a>
-                                      <input type="button" class="btn btn-inverse-danger btn-sm" value="hapus" onclick="confirmationDelete('<?= $data['id'] ?>')">
+                                      <input type="button" class="btn btn-inverse-danger btn-sm" value="hapus" onclick="confirmationDelete('<?= $data[0] ?>')">
                                   </td>
                               </tr>
                         <?php $no++; } ?>

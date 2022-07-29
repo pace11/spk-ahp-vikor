@@ -1,5 +1,37 @@
 <?php 
 
+use Dompdf\Dompdf;
+require 'vendor/autoload.php';
+$dompdf = new Dompdf();
+
+function get_env() {
+  return "production"; // [production, dev]
+}
+
+function get_url() {
+  $env = get_env(); // [production, dev]
+  $protocol = $env === 'production' ? 'https://' : 'http://';
+  $server_name = $_SERVER['HTTP_HOST']; 
+  $app = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+  return $protocol.$server_name.$app;
+}
+
+function url_file() {
+  $env = get_env(); // [production, dev]
+  $path_dev = 'http://localhost/spk-ahp-vikor/pages/perhitungan';
+  $path_prod = get_url().'/pages/perhitungan';
+  $final_path = $env === 'dev' ? $path_dev : $path_prod;
+  return $final_path;
+}
+
+function url_preview_file() {
+  $env = get_env(); // [production, dev]
+  $path_dev = 'http://localhost/spk-ahp-vikor/file/cetak.pdf';
+  $path_prod = get_url().'/file/cetak.pdf';
+  $final_path = $env === 'dev' ? $path_dev : $path_prod;
+  return $final_path;
+}
+
 function encrypt_decrypt($action, $string) {
   $output = false;
   $encrypt_method = "AES-256-CBC";
@@ -95,6 +127,16 @@ function array_kriteria($table_name) {
   $q = mysqli_query($conn, "SELECT id FROM $table_name");
   while($data=mysqli_fetch_array($q)) {
       $tmp_arr[] = $data['id'];
+    };
+  return $tmp_arr;
+}
+
+function array_alternatif() {
+  include "connection.php";
+  $tmp_arr = array();
+  $q = mysqli_query($conn, "SELECT dosen_id FROM alternatif");
+  while($data=mysqli_fetch_array($q)) {
+      $tmp_arr[] = $data['dosen_id'];
     };
   return $tmp_arr;
 }

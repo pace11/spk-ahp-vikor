@@ -1,14 +1,14 @@
 <?php 
-    $get_id = mysqli_query($conn, "SELECT id FROM alternatif WHERE SUBSTRING(id,1,10)='ALTERNATIF'") or die (mysqli_error($conn));
-    $trim_id = mysqli_query($conn, "SELECT SUBSTRING(id,-2,2) as hasil FROM alternatif WHERE SUBSTRING(id,1,10)='ALTERNATIF' ORDER BY hasil DESC LIMIT 1") or die (mysqli_error($conn));
-    $hit    = mysqli_num_rows($get_id);
-    if ($hit == 0){
-        $id_k   = "ALTERNATIF01";
-    } else if ($hit > 0){
-        $row    = mysqli_fetch_array($trim_id);
-        $kode   = $row['hasil']+1;
-        $id_k   = "ALTERNATIF".str_pad($kode,2,"0",STR_PAD_LEFT); 
-    }    
+  $get_id = mysqli_query($conn, "SELECT id FROM alternatif WHERE SUBSTRING(id,1,10)='ALTERNATIF'") or die (mysqli_error($conn));
+  $trim_id = mysqli_query($conn, "SELECT SUBSTRING(id,-2,2) as hasil FROM alternatif WHERE SUBSTRING(id,1,10)='ALTERNATIF' ORDER BY hasil DESC LIMIT 1") or die (mysqli_error($conn));
+  $hit    = mysqli_num_rows($get_id);
+  if ($hit == 0){
+      $id_k   = "ALTERNATIF01";
+  } else if ($hit > 0){
+      $row    = mysqli_fetch_array($trim_id);
+      $kode   = $row['hasil']+1;
+      $id_k   = "ALTERNATIF".str_pad($kode,2,"0",STR_PAD_LEFT); 
+  }    
 ?>
 
 <div class="col-lg-12 grid-margin stretch-card">
@@ -21,11 +21,11 @@
 
                       if (isset($_POST['submit'])) {
                         $id     = $_POST['id'];
-                        $nama   = $_POST['nama_alternatif'];
+                        $dosen   = $_POST['dosen'];
 
                         $insert = mysqli_query($conn, "INSERT INTO alternatif SET
                                 id  = '$id',
-                                nama_alternatif = '$nama'") or die (mysqli_error($conn));
+                                dosen_id = '$dosen'") or die (mysqli_error($conn));
 
                         if ($insert) {
                           echo '<div class="mt-3 mb-3 badge-success p-2 text-center rounded-1">Data berhasil tersimpan</div>';
@@ -41,8 +41,17 @@
                         <input type="text" class="form-control" placeholder="ID Kriteria" name="id" required value="<?= $id_k ?>" readonly>
                       </div>
                       <div class="form-group">
-                        <label for="namadosen">Nama Kriteria</label>
-                        <input type="text" class="form-control" placeholder="Nama Alternatif" name="nama_alternatif" required>
+                        <label for="namadosen">Nama Dosen</label>
+                        <select class="form-control form-control-lg" name="dosen">
+                        <option style="display:none;">- pilih salah satu -</option>
+                        <?php 
+                          $query  = mysqli_query($conn, "SELECT d.* FROM dosen d WHERE NOT EXISTS (SELECT NULL FROM alternatif al WHERE al.dosen_id = d.id)") or die (mysqli_error($conn));
+                          while($data = mysqli_fetch_array($query)) {
+                            echo "<option value='$data[id]'>($data[id]) $data[nama]</option>";
+                          }
+                        ?>
+                        </select>
+                        <!-- <input type="text" class="form-control" placeholder="Nama Alternatif" name="nama_alternatif" required> -->
                       </div>
                       <input type="submit" name="submit" class="btn btn-primary me-2" value="simpan">
                       <a href="?page=alternatif" class="btn btn-light">Kembali</a>

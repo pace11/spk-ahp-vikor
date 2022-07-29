@@ -3,28 +3,21 @@
         <div class="container-fluid">
         <div class="navbar-menu-wrapper d-flex align-items-center justify-content-between">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                <!-- <a class="navbar-brand brand-logo" href="index.html"><img src="images/logo.svg" alt="logo"/></a>
-                <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/logo-mini.svg" alt="logo"/></a> -->
-                    <a class="navbar-brand" href="?page=beranda"><i class="mdi mdi-chart-bar"></i> SPK AHP-VIKOR</a>
+                <a class="navbar-brand" href="?page=beranda"><i class="mdi mdi-chart-bar"></i> SPK AHP-VIKOR</a>
             </div>
             <ul class="navbar-nav navbar-nav-right">
                 <li class="nav-item nav-profile dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
-                    <span class="nav-profile-name"><?= get_user_login($_COOKIE['user_dashboard'])["nama"] ?></span>
+                    <span class="nav-profile-name"></span>
                     <span class="online-status"></span>
                     <img src="images/dashboard/cat.jpg" alt="profile"/>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                    <a href="?page=logout" class="dropdown-item">
-                        <i class="mdi mdi-logout text-primary"></i>
-                        Logout
-                    </a>
+                    <a href="?page=logout" class="dropdown-item"><i class="mdi mdi-logout text-primary"></i>Logout</a>
                 </div>
                 </li>
             </ul>
-            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="horizontal-menu-toggle">
-            <span class="mdi mdi-menu"></span>
-            </button>
+            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="horizontal-menu-toggle"><span class="mdi mdi-menu"></span></button>
         </div>
         </div>
     </nav>
@@ -65,7 +58,7 @@
                 </a>
                 <div class="submenu">
                     <ul>
-                        <li class="nav-item"><a class="nav-link" href="?page=alternatiftambah">Daftar Alternatif</a></li>
+                        <li class="nav-item"><a class="nav-link" href="?page=alternatiftambah">Input Alternatif</a></li>
                         <li class="nav-item"><a class="nav-link" href="?page=alternatif">Daftar Alternatif</a></li>
                     </ul>
                 </div>

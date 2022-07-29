@@ -3,7 +3,7 @@
   $tmp_arr_kriteria = array();
   $tmp_arr = array();
   $arr_kriteria = array_kriteria("kriteria");
-  $arr_dosen = array_kriteria("dosen");
+  $arr_dosen = array_alternatif();
   $arr_k_two_d = array_kriteria_twod($arr_kriteria);
   $arr_k_two_d_unik = array_kriteria_banding_unik($arr_k_two_d);
 
@@ -19,10 +19,6 @@
     }
     $tmp_arr_kriteria[$val] = $tmp_arr;
   }
-
-  // echo "<pre>";
-  // print_r($arr_dosen);
-  // echo "</pre>";
 
 ?>
 
@@ -45,8 +41,9 @@
 
                         $delete = mysqli_query($conn, "DELETE FROM banding_kriteria");
                         $delete2 = mysqli_query($conn, "DELETE FROM banding_dosen");
+                        $delete3 = mysqli_query($conn, "DELETE FROM hasil_ranking");
 
-                        if ($delete && $delete2) {
+                        if ($delete && $delete2 && $delete3) {
                           $total = count($arr_k_two_d_unik);
                           $count = 0;
 
@@ -87,6 +84,103 @@
                             data  = '$isi_data'") or die (mysqli_error($conn));
 
                           if ($count == $total) {
+
+                            $arr_kriteria = array_kriteria("kriteria");
+                            $arr_dosen = array_alternatif();
+                            $arr_k_two_d = array_kriteria_twod($arr_kriteria);
+                            $arr_k_two_d_unik = array_kriteria_banding_unik($arr_k_two_d);
+                            $arr_k_satu = array_kriteria_satu($arr_kriteria, $arr_k_two_d_unik);
+                            $arr_k_dua = array_kriteria_dua($arr_k_satu);
+
+                            $hit_vektor = hitung_vektor($arr_k_dua);
+                            $hit_bobot = hitung_bobot($hit_vektor, count($arr_kriteria));
+
+                            $arr_k_satu_sum = $arr_k_satu[count($arr_k_satu) - 1];
+                            $eigen_val = eigen_value($arr_k_satu_sum, $hit_bobot);
+
+                            $ci = round(($eigen_val[count($eigen_val)-1]-$hit_vektor[count($hit_vektor)-1])/($hit_vektor[count($hit_vektor)-1]-$hit_bobot[count($hit_bobot)-1]), 2);
+                            $ri = object_ri()[count($arr_kriteria)];
+                            $cr = round($ci/$ri, 2);
+
+                            // // dosen kriteria
+                            $arr_kriteria_dosen = array_kriteria_twod($arr_dosen);
+                            $arr_k_two_dosen_unik = array_kriteria_banding_unik($arr_kriteria_dosen);
+                            $query = mysqli_query($conn, "SELECT * FROM banding_dosen");
+                            $isi = mysqli_fetch_array($query);
+
+                            $obj = json_decode($isi['data']);
+                            $arr_k_dosen_satu = array();
+                            $arr_k_dosen_dua = array();
+                            $hit_vektor_dosen = array();
+                            $hit_bobot_dosen = array();
+                            $hit_final_dosen = array();
+                            $hit_bobot_kriteria = array_slice($hit_bobot, 0, count($hit_bobot)-1);
+
+                            $w = array();
+                            foreach ($hit_bobot_kriteria as $key => $val) {
+                              $w[] = $val/hitung_kriteria_column($hit_bobot_kriteria);
+                            }
+                            $result_w = hitung_kriteria_column($w);
+
+                            foreach($arr_kriteria as $key => $val) {
+                              $arr_k_dosen_satu[$val] = array_kriteria_dosen_satu($arr_dosen, $arr_k_two_dosen_unik, $val);
+                            }
+
+                            foreach($arr_kriteria as $key => $val) {
+                              $arr_k_dosen_dua[$val] = array_kriteria_dua($arr_k_dosen_satu[$val]);
+                              $hit_vektor_dosen[] = hitung_vektor(array_kriteria_dua($arr_k_dosen_satu[$val]));
+                              $arr = hitung_bobot($hit_vektor_dosen[$key], count($arr_dosen));
+                              $hit_bobot_dosen[] = array_slice($arr, 0, count($arr)-1);
+                            }
+
+                            $hit_bobot_dosen_fin = array();
+                            foreach($hit_bobot_dosen as $key => $val) {
+                              foreach($val as $key_c => $val_c) {
+                                $hit_bobot_dosen_fin[$key_c][$key] = $val_c;
+                              }
+                            }
+
+                            foreach($hit_bobot_dosen_fin as $key => $val) {
+                              foreach($val as $key_c => $val_c) {
+                                $a = $val_c*$hit_bobot_kriteria[$key_c];
+                                $hit_final_dosen[$key][$key_c] = $a;
+                                $tmp_val = ((max($hit_bobot_dosen[$key_c]) - $val_c) / (max($hit_bobot_dosen[$key_c]) - min($hit_bobot_dosen[$key_c])));
+                                $value_s[$key][$key_c] = $tmp_val;
+                                $value_r[$key][$key_c] = $tmp_val*$w[$key_c];
+                              }
+                            }
+
+                            $ranking = array();
+                            foreach ($hit_final_dosen as $k => $subArray) {
+                              foreach ($subArray as $id => $value) {
+                                $ranking[$k] += $value;
+                              }
+                            }
+                            $result_ranking = ranking_dosen($ranking);
+                            $hitung_value_r = hitung_array_kriteria_column_unmerged($value_r);
+                            $max_value_r = hitung_array_max($value_r);
+
+                            foreach($arr_dosen as $key => $val) {
+                              $vikor_ranking[] = ((($hitung_value_r[$key]-min($hitung_value_r)) / (max($hitung_value_r)-min($hitung_value_r)) * 0.5) + (($max_value_r[$key]-min($max_value_r)) / (max($max_value_r)-min($max_value_r)) * 0.5));
+                            }
+                            $result_vikor_ranking = ranking_vikor($vikor_ranking);
+
+                            foreach($arr_dosen as $key => $val) {
+                              mysqli_query($conn, "INSERT INTO hasil_ranking SET
+                                dosen_id  = '$val',
+                                nilai_s  = '$max_value_r[$key]',
+                                nilai_r  = '$hitung_value_r[$key]',
+                                result = '$vikor_ranking[$key]',
+                                ranking = '$result_vikor_ranking[$key]'") or die (mysqli_error($conn));
+                            }
+
+                            $html = file_get_contents(url_file()."/cetak.php");
+                            $dompdf->loadHtml($html);
+                            $dompdf->setPaper('A4', 'portrait');
+                            $dompdf->render();
+                            $output = $dompdf->output();
+                            file_put_contents('file/cetak.pdf', $output);
+
                             echo '<div class="mt-3 mb-3 badge-success p-2 text-center rounded-1">Data berhasil tersimpan</div>';
                             echo "<meta http-equiv='refresh' content='1;
                             url=?page=perhitungan'>";

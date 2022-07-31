@@ -27,7 +27,7 @@ function url_file() {
 function url_preview_file() {
   $env = get_env(); // [production, dev]
   $path_dev = 'http://localhost/spk-ahp-vikor/file/cetak.pdf';
-  $path_prod = get_url().'/file/cetak.pdf';
+  $path_prod = 'https://spk.janjiku.id/file/cetak.pdf';
   $final_path = $env === 'dev' ? $path_dev : $path_prod;
   return $final_path;
 }

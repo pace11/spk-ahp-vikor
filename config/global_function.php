@@ -5,7 +5,7 @@ require 'vendor/autoload.php';
 $dompdf = new Dompdf();
 
 function get_env() {
-  return "production"; // [production, dev]
+  return "dev"; // [production, dev]
 }
 
 function get_url() {
